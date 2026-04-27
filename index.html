@@ -1,31 +1,623 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Page</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            margin: 40px auto;
-            max-width: 650px;
-            padding: 0 10px;
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Content file — edit this to update all site text -->
+  <script src="content.js"></script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-shell:   oklch(0.84 0.04 255);
+      --bg-card:    oklch(0.97 0.005 80);
+      --bg-sub:     oklch(0.93 0.01 260);
+      --fg-primary: oklch(0.15 0.01 260);
+      --fg-muted:   oklch(0.48 0.01 260);
+      --accent:     oklch(0.52 0.22 260);
+      --accent-h:   oklch(0.46 0.22 260);
+      --accent-bg:  oklch(0.93 0.04 260);
+      --border:     oklch(0.90 0.005 260);
+      --radius:     20px;
+      --font:       'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-shell);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    #root { width: 100%; max-width: 960px; }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 4px oklch(0 0 0 / 0.06), 0 12px 40px oklch(0 0 0 / 0.10);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+      z-index: 10;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; flex-shrink: 0; }
+    .logo-text { font-size: 15px; font-weight: 700; color: var(--fg-primary); letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 4px; margin-left: 40px; list-style: none; }
+    .nav-links button {
+      background: none; border: none;
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      color: var(--fg-muted); cursor: pointer;
+      padding: 6px 14px; border-radius: 8px;
+      transition: color 0.18s, background 0.18s;
+    }
+    .nav-links button:hover { color: var(--fg-primary); background: var(--bg-sub); }
+    .nav-links button.active { color: var(--accent); font-weight: 600; }
+    .nav-cta { margin-left: auto; }
+    .btn-primary {
+      background: var(--accent); color: #fff; border: none;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      padding: 9px 20px; border-radius: 10px; cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-primary:hover { background: var(--accent-h); transform: translateY(-1px); }
+
+    /* ── Page animation ── */
+    .page { animation: fadeIn 0.32s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Section ── */
+    .section { padding: 64px 48px; border-bottom: 1px solid var(--border); }
+    .section:last-child { border-bottom: none; }
+    .section-header {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center; margin-bottom: 40px;
+    }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-bg); color: var(--accent);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 5px 14px;
+      border-radius: 100px; margin-bottom: 16px;
+    }
+    .section h2 {
+      font-size: clamp(24px, 3.5vw, 36px); font-weight: 800;
+      color: var(--fg-primary); letter-spacing: -0.03em; margin-bottom: 12px;
+    }
+    .section-sub { font-size: 15px; color: var(--fg-muted); max-width: 420px; line-height: 1.65; text-wrap: pretty; }
+
+    /* ── Grids ── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    /* ── Generic card ── */
+    .g-card { background: var(--bg-sub); border-radius: 14px; padding: 24px 20px; text-align: left; }
+    .g-card-icon {
+      width: 36px; height: 36px; background: var(--accent);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px; flex-shrink: 0;
+    }
+    .g-card h3 { font-size: 14px; font-weight: 700; color: var(--fg-primary); margin-bottom: 6px; }
+    .g-card p { font-size: 13px; color: var(--fg-muted); line-height: 1.55; }
+    .g-card-tag {
+      display: inline-block; margin-top: 14px;
+      font-size: 11px; font-weight: 600; color: var(--accent);
+      background: var(--accent-bg); padding: 3px 10px; border-radius: 100px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      padding: 72px 48px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .home-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-bg); color: var(--accent);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 5px 14px;
+      border-radius: 100px; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px); font-weight: 800;
+      color: var(--fg-primary); letter-spacing: -0.03em;
+      line-height: 1.12; max-width: 600px; margin-bottom: 20px;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-sub { font-size: 16px; color: var(--fg-muted); max-width: 440px; line-height: 1.65; margin-bottom: 36px; text-wrap: pretty; }
+    .hero-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-lg {
+      background: var(--accent); color: #fff; border: none;
+      font-family: var(--font); font-size: 15px; font-weight: 600;
+      padding: 13px 28px; border-radius: 12px; cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-lg:hover { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-outline {
+      background: none; color: var(--fg-primary); border: 1.5px solid var(--border);
+      font-family: var(--font); font-size: 15px; font-weight: 600;
+      padding: 12px 24px; border-radius: 12px; cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: var(--accent-bg); }
+    .hero-figures { margin-top: 52px; display: flex; justify-content: center; gap: 24px; align-items: flex-end; }
+    .home-pills { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 36px; }
+    .pill { background: var(--bg-sub); color: var(--fg-primary); font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 100px; }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 680px; margin: 0 auto; }
+    .faq-item { background: var(--bg-sub); border-radius: 14px; overflow: hidden; }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      color: var(--fg-primary); text-align: left;
+      padding: 18px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; gap: 16px; transition: color 0.18s;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-q svg { flex-shrink: 0; transition: transform 0.24s; }
+    .faq-q.open svg { transform: rotate(180deg); }
+    .faq-a { font-size: 13px; color: var(--fg-muted); line-height: 1.65; padding: 0 20px 18px; display: none; }
+    .faq-a.open { display: block; }
+
+    /* ── Team card ── */
+    .team-card { background: var(--bg-sub); border-radius: 14px; padding: 24px 20px; text-align: left; display: flex; flex-direction: column; gap: 10px; }
+    .team-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .team-card h3 { font-size: 14px; font-weight: 700; color: var(--fg-primary); }
+    .team-card .role { font-size: 12px; font-weight: 600; color: var(--accent); }
+    .team-card p { font-size: 13px; color: var(--fg-muted); line-height: 1.55; }
+
+    /* ── Map ── */
+    .map-placeholder { background: var(--bg-sub); border-radius: 14px; overflow: hidden; position: relative; height: 240px; display: flex; align-items: center; justify-content: center; }
+    .map-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .map-pin { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .map-pin-dot { width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px oklch(0.52 0.22 260 / 0.15); }
+    .map-address { background: var(--bg-card); border-radius: 10px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--fg-primary); box-shadow: 0 2px 8px oklch(0 0 0 / 0.08); }
+
+    /* ── Contact ── */
+    .contact-wrap { display: flex; flex-direction: column; align-items: center; padding: 64px 48px; }
+    .contact-wrap h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: var(--fg-primary); letter-spacing: -0.03em; margin-bottom: 12px; }
+    .contact-wrap > p { font-size: 15px; color: var(--fg-muted); max-width: 380px; line-height: 1.65; margin-bottom: 40px; text-wrap: pretty; text-align: center; }
+    .contact-form { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 420px; }
+    .form-row { display: flex; gap: 14px; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .form-field label { font-size: 13px; font-weight: 600; color: var(--fg-primary); text-align: left; }
+    .form-field input, .form-field textarea {
+      font-family: var(--font); font-size: 14px; color: var(--fg-primary);
+      background: var(--bg-sub); border: 1.5px solid transparent;
+      border-radius: 10px; padding: 11px 14px;
+      outline: none; transition: border-color 0.18s, background 0.18s; resize: none;
+    }
+    .form-field input::placeholder, .form-field textarea::placeholder { color: var(--fg-muted); }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--accent); background: oklch(0.96 0.015 260); }
+    .form-field textarea { min-height: 110px; }
+    .form-submit {
+      background: var(--accent); color: #fff; border: none;
+      font-family: var(--font); font-size: 15px; font-weight: 600;
+      padding: 13px; border-radius: 12px; cursor: pointer;
+      transition: background 0.18s, transform 0.12s; margin-top: 4px;
+    }
+    .form-submit:hover { background: var(--accent-h); transform: translateY(-1px); }
+    .success-msg { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 32px; }
+    .success-msg p { color: var(--fg-muted); font-size: 15px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .section { padding: 48px 24px; }
+      .hero { padding: 56px 24px 40px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .form-row { flex-direction: column; }
+      .contact-wrap { padding: 48px 24px; }
+    }
+  </style>
 </head>
 <body>
+<div id="root"></div>
 
-    <h1>Hello, World!</h1>
-    <p>This is a very simple HTML page. It's clean, easy to read, and ready for your content.</p>
-    
-    <h2>Why this works:</h2>
-    <ul>
-        <li><strong>Responsive:</strong> It looks good on phones and desktops.</li>
-        <li><strong>Fast:</strong> No heavy files or external libraries.</li>
-        <li><strong>Readable:</strong> The CSS makes the text easy on the eyes.</li>
-    </ul>
+<script type="text/babel">
+  const { useState } = React;
 
+  // Pull content from the global loaded by content.js
+  const C = window.SITE_CONTENT;
+
+  /* ── Logo ── */
+  function LogoMark({ size = 28 }) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 28 28" fill="none">
+        <rect x="4" y="4" width="20" height="20" rx="5" fill="oklch(0.52 0.22 260)" />
+        <rect x="9" y="9" width="10" height="3" rx="1.5" fill="white" />
+        <rect x="9" y="16" width="10" height="3" rx="1.5" fill="white" />
+        <rect x="9" y="9" width="3" height="10" rx="1.5" fill="white" />
+      </svg>
+    );
+  }
+
+  /* ── Figure illustration ── */
+  function Figure({ color, height, headSize = 22 }) {
+    const bodyW = headSize * 1.7;
+    const cols = {
+      slate: { body: '#8B8FA8', head: '#6B6F86' },
+      blue:  { body: '#5B8DEF', head: '#4A7BE0' },
+      amber: { body: '#F5B942', head: '#E8A82C' },
+    };
+    const c = cols[color];
+    return (
+      <svg width={bodyW + 4} height={height + headSize + 6} viewBox={`0 0 ${bodyW + 4} ${height + headSize + 6}`} fill="none">
+        <rect x="2" y={headSize - 4} width={bodyW} height={height + 4} rx={bodyW / 2} fill={c.body} />
+        <circle cx={(bodyW / 2) + 2} cy={headSize / 2} r={headSize / 2} fill={c.head} />
+        <circle cx={(bodyW / 2) + 2 - 4} cy={headSize / 2 - 4} r={headSize / 6} fill="white" opacity="0.25" />
+      </svg>
+    );
+  }
+
+  /* ── Icon ── */
+  function Icon({ d, size = 18 }) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 18 18" fill="none">
+        <path d={d} stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  const PROJECT_ICONS = [
+    "M9 2L15 5v8l-6 3-6-3V5L9 2z",
+    "M3 9h12M9 3v12",
+    "M9 2l6 3v5c0 4-6 7-6 7S3 14 3 10V5L9 2z",
+    "M2 9h3l2-5 4 10 2-5h3",
+    "M4 4h10v10H4zM7 7h4v4H7z",
+    "M3 3l12 12M15 3L3 15",
+  ];
+  const SERVICE_ICONS = [
+    "M3 3h12v12H3zM7 3v12M3 7h12",
+    "M9 2L2 7v9h14V7L9 2z",
+    "M5 5h8v8H5zM2 2l14 14M16 2L2 16",
+    "M3 9h12M9 3l6 6-6 6",
+    "M9 2v14M3 8l6-6 6 6",
+    "M9 16A7 7 0 109 2a7 7 0 000 14zM9 6v4l2 2",
+  ];
+  const VALUE_ICONS = [
+    "M9 2a7 7 0 100 14A7 7 0 009 2zM9 6v4l2 2",
+    "M3 9h12M11 5l4 4-4 4",
+    "M2 5h14v10H2zM6 5V4a3 3 0 016 0v1",
+  ];
+
+  /* ── Generic card ── */
+  function GCard({ icon, title, desc, tag }) {
+    return (
+      <div className="g-card">
+        {icon && <div className="g-card-icon">{icon}</div>}
+        <h3>{title}</h3>
+        <p>{desc}</p>
+        {tag && <span className="g-card-tag">{tag}</span>}
+      </div>
+    );
+  }
+
+  /* ── Section wrapper ── */
+  function Section({ label, title, sub, children }) {
+    return (
+      <div className="section">
+        <div className="section-header">
+          {label && <span className="section-label">{label}</span>}
+          <h2>{title}</h2>
+          {sub && <p className="section-sub">{sub}</p>}
+        </div>
+        {children}
+      </div>
+    );
+  }
+
+  /* ════════════════════════════════
+     HOME
+  ════════════════════════════════ */
+  function Home({ onNav }) {
+    const [openFaq, setOpenFaq] = useState(null);
+    const h = C.home.hero;
+    const proj = C.home.projects;
+    const svc = C.home.services;
+    const faq = C.home.faq;
+
+    function Headline() {
+      return (
+        <h1>
+          {h.headline.map((line, i) => {
+            const parts = line.split(h.headlineAccent);
+            return (
+              <span key={i}>
+                {parts.map((part, j) => (
+                  <span key={j}>
+                    {part}
+                    {j < parts.length - 1 && <em>{h.headlineAccent}</em>}
+                  </span>
+                ))}
+                {i < h.headline.length - 1 && <br />}
+              </span>
+            );
+          })}
+        </h1>
+      );
+    }
+
+    return (
+      <div className="page">
+        {/* Hero */}
+        <div className="hero">
+          <div className="home-badge">
+            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+            {h.badge}
+          </div>
+          <Headline />
+          <p className="hero-sub">{h.sub}</p>
+          <div className="hero-actions">
+            <button className="btn-lg" onClick={() => onNav('contact')}>{h.ctaPrimary}</button>
+            <button className="btn-outline" onClick={() => onNav('about')}>{h.ctaSecondary}</button>
+          </div>
+          <div className="hero-figures">
+            <Figure color="slate" height={72} headSize={24} />
+            <Figure color="blue"  height={88} headSize={22} />
+            <Figure color="amber" height={100} headSize={26} />
+            <Figure color="blue"  height={92} headSize={22} />
+            <Figure color="amber" height={68} headSize={20} />
+          </div>
+          <div className="home-pills">
+            {h.pills.map(p => <span className="pill" key={p}>{p}</span>)}
+          </div>
+        </div>
+
+        {/* Projects */}
+        <Section label={proj.sectionLabel} title={proj.sectionTitle} sub={proj.sectionSub}>
+          <div className="grid-3">
+            {proj.items.map((p, i) => (
+              <GCard key={p.title} icon={<Icon d={PROJECT_ICONS[i % PROJECT_ICONS.length]} />} title={p.title} desc={p.desc} tag={p.tag} />
+            ))}
+          </div>
+        </Section>
+
+        {/* Services */}
+        <Section label={svc.sectionLabel} title={svc.sectionTitle} sub={svc.sectionSub}>
+          <div className="grid-3">
+            {svc.items.map((s, i) => (
+              <GCard key={s.title} icon={<Icon d={SERVICE_ICONS[i % SERVICE_ICONS.length]} />} title={s.title} desc={s.desc} />
+            ))}
+          </div>
+        </Section>
+
+        {/* FAQ */}
+        <Section label={faq.sectionLabel} title={faq.sectionTitle} sub={faq.sectionSub}>
+          <div className="faq-list">
+            {faq.items.map((f, i) => (
+              <div className="faq-item" key={i}>
+                <button className={`faq-q${openFaq === i ? ' open' : ''}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                  {f.q}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                <div className={`faq-a${openFaq === i ? ' open' : ''}`}>{f.a}</div>
+              </div>
+            ))}
+          </div>
+        </Section>
+      </div>
+    );
+  }
+
+  /* ════════════════════════════════
+     ABOUT
+  ════════════════════════════════ */
+  function About() {
+    const ab = C.about;
+
+    return (
+      <div className="page">
+        {/* Intro */}
+        <div className="section" style={{ textAlign: 'center' }}>
+          <div className="section-header">
+            <h2 style={{ fontSize: 'clamp(28px,4vw,42px)', marginBottom: '14px' }}>{ab.intro.title}</h2>
+            <p className="section-sub">{ab.intro.sub}</p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', alignItems: 'flex-end', marginBottom: '40px' }}>
+            <Figure color="slate" height={64} headSize={22} />
+            <Figure color="blue"  height={80} headSize={22} />
+            <Figure color="amber" height={96} headSize={26} />
+            <Figure color="blue"  height={80} headSize={22} />
+            <Figure color="amber" height={60} headSize={20} />
+          </div>
+          <div className="grid-3" style={{ maxWidth: '700px', margin: '0 auto' }}>
+            {ab.values.map((v, i) => (
+              <GCard key={v.title} icon={<Icon d={VALUE_ICONS[i % VALUE_ICONS.length]} />} title={v.title} desc={v.desc} />
+            ))}
+          </div>
+        </div>
+
+        {/* Team */}
+        <Section label={ab.team.sectionLabel} title={ab.team.sectionTitle} sub={ab.team.sectionSub}>
+          <div className="grid-3">
+            {ab.team.members.map(m => (
+              <div className="team-card" key={m.name}>
+                <div className="team-avatar" style={{ background: m.color }}>{m.initials}</div>
+                <div>
+                  <h3>{m.name}</h3>
+                  <span className="role">{m.role}</span>
+                </div>
+                <p>{m.bio}</p>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* Location */}
+        <Section label={ab.location.sectionLabel} title={ab.location.sectionTitle} sub={ab.location.sectionSub}>
+          <div className="map-placeholder">
+            <div className="map-grid"></div>
+            <div className="map-pin">
+              <div className="map-pin-dot">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M9 2C6.24 2 4 4.24 4 7c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 119 5a1.5 1.5 0 010 3.5z" fill="white"/>
+                </svg>
+              </div>
+              <div className="map-address">{ab.location.address}</div>
+            </div>
+          </div>
+          <div className="grid-3" style={{ marginTop: '16px' }}>
+            {ab.location.cards.map(c => (
+              <GCard key={c.title} title={c.title} desc={c.desc} />
+            ))}
+          </div>
+        </Section>
+      </div>
+    );
+  }
+
+  /* ════════════════════════════════
+     CONTACT
+  ════════════════════════════════ */
+  function Contact() {
+    const ct = C.contact;
+    const [form, setForm] = useState({ name: '', email: '', message: '' });
+    const [sent, setSent] = useState(false);
+    const [errors, setErrors] = useState({});
+
+    function validate() {
+      const e = {};
+      if (!form.name.trim()) e.name = true;
+      if (!form.email.includes('@')) e.email = true;
+      if (!form.message.trim()) e.message = true;
+      return e;
+    }
+
+    function submit(ev) {
+      ev.preventDefault();
+      const e = validate();
+      if (Object.keys(e).length) { setErrors(e); return; }
+      setSent(true);
+    }
+
+    if (sent) {
+      return (
+        <div className="page">
+          <div className="contact-wrap">
+            <h2>{ct.title}</h2>
+            <div className="success-msg">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="22" fill="oklch(0.93 0.04 260)" />
+                <path d="M14 24l7 7 13-14" stroke="oklch(0.52 0.22 260)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <p>{ct.successMessage}</p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="page">
+        <div className="contact-wrap">
+          <h2>{ct.title}</h2>
+          <p>{ct.sub}</p>
+          <form className="contact-form" onSubmit={submit} noValidate>
+            <div className="form-row">
+              <div className="form-field">
+                <label>{ct.fields.name.label}</label>
+                <input type="text" placeholder={ct.fields.name.placeholder} value={form.name}
+                  onChange={e => { setForm(f => ({...f, name: e.target.value})); setErrors(er => ({...er, name: false})); }}
+                  style={errors.name ? {borderColor:'oklch(0.55 0.20 25)'} : {}} />
+              </div>
+              <div className="form-field">
+                <label>{ct.fields.email.label}</label>
+                <input type="email" placeholder={ct.fields.email.placeholder} value={form.email}
+                  onChange={e => { setForm(f => ({...f, email: e.target.value})); setErrors(er => ({...er, email: false})); }}
+                  style={errors.email ? {borderColor:'oklch(0.55 0.20 25)'} : {}} />
+              </div>
+            </div>
+            <div className="form-field">
+              <label>{ct.fields.message.label}</label>
+              <textarea placeholder={ct.fields.message.placeholder} value={form.message}
+                onChange={e => { setForm(f => ({...f, message: e.target.value})); setErrors(er => ({...er, message: false})); }}
+                style={errors.message ? {borderColor:'oklch(0.55 0.20 25)'} : {}} />
+            </div>
+            <button type="submit" className="form-submit">{ct.submitLabel}</button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  /* ════════════════════════════════
+     APP SHELL
+  ════════════════════════════════ */
+  function App() {
+    const [page, setPage] = useState('home');
+    const pageIds = ['home', 'about', 'contact'];
+
+    function nav(id) {
+      setPage(id);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    return (
+      <div className="card">
+        <nav>
+          <div className="logo" onClick={() => nav('home')}>
+            <LogoMark size={28} />
+            <span className="logo-text">{C.brand.name}</span>
+          </div>
+          <ul className="nav-links">
+            {C.nav.links.map((label, i) => (
+              <li key={label}>
+                <button className={page === pageIds[i] ? 'active' : ''} onClick={() => nav(pageIds[i])}>
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className="nav-cta">
+            <button className="btn-primary" onClick={() => nav('contact')}>{C.nav.cta}</button>
+          </div>
+        </nav>
+
+        {page === 'home'    && <Home    key="home"    onNav={nav} />}
+        {page === 'about'   && <About   key="about" />}
+        {page === 'contact' && <Contact key="contact" />}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
 </body>
 </html>
