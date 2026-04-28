@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import { useForm } from '@formspree/react'
 import CONTENT from '../content'
 
 export default function Contact() {
   const ct = CONTENT.contact
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [sent, setSent] = useState(false)
-  const [errors, setErrors] = useState({})
+  const [localErrors, setLocalErrors] = useState({})
+  const [fsState, fsSend] = useForm('xqewrpnb')
 
   function validate() {
     const e = {}
@@ -15,16 +16,16 @@ export default function Contact() {
     return e
   }
 
-  function submit(ev) {
+  async function submit(ev) {
     ev.preventDefault()
     const e = validate()
-    if (Object.keys(e).length) { setErrors(e); return }
-    setSent(true)
+    if (Object.keys(e).length) { setLocalErrors(e); return }
+    await fsSend({ name: form.name, email: form.email, message: form.message })
   }
 
   const errorBorder = { borderColor: 'oklch(0.55 0.20 25)' }
 
-  if (sent) {
+  if (fsState.succeeded) {
     return (
       <div className="page">
         <div className="contact-wrap">
@@ -54,8 +55,8 @@ export default function Contact() {
                 type="text"
                 placeholder={ct.fields.name.placeholder}
                 value={form.name}
-                onChange={e => { setForm(f => ({ ...f, name: e.target.value })); setErrors(er => ({ ...er, name: false })) }}
-                style={errors.name ? errorBorder : {}}
+                onChange={e => { setForm(f => ({ ...f, name: e.target.value })); setLocalErrors(er => ({ ...er, name: false })) }}
+                style={localErrors.name ? errorBorder : {}}
               />
             </div>
             <div className="form-field">
@@ -64,8 +65,8 @@ export default function Contact() {
                 type="email"
                 placeholder={ct.fields.email.placeholder}
                 value={form.email}
-                onChange={e => { setForm(f => ({ ...f, email: e.target.value })); setErrors(er => ({ ...er, email: false })) }}
-                style={errors.email ? errorBorder : {}}
+                onChange={e => { setForm(f => ({ ...f, email: e.target.value })); setLocalErrors(er => ({ ...er, email: false })) }}
+                style={localErrors.email ? errorBorder : {}}
               />
             </div>
           </div>
@@ -74,11 +75,13 @@ export default function Contact() {
             <textarea
               placeholder={ct.fields.message.placeholder}
               value={form.message}
-              onChange={e => { setForm(f => ({ ...f, message: e.target.value })); setErrors(er => ({ ...er, message: false })) }}
-              style={errors.message ? errorBorder : {}}
+              onChange={e => { setForm(f => ({ ...f, message: e.target.value })); setLocalErrors(er => ({ ...er, message: false })) }}
+              style={localErrors.message ? errorBorder : {}}
             />
           </div>
-          <button type="submit" className="form-submit">{ct.submitLabel}</button>
+          <button type="submit" className="form-submit" disabled={fsState.submitting}>
+            {fsState.submitting ? 'Sending…' : ct.submitLabel}
+          </button>
         </form>
       </div>
     </div>
