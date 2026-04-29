@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import CONTENT from '../content'
-import Figure from './Figure'
 import GCard from './GCard'
+import HeroIllustration from './HeroIllustration'
 import Icon from './Icon'
 import Section from './Section'
 
@@ -76,11 +76,7 @@ export default function Home({ onNav }) {
           <button className="btn-outline" onClick={() => onNav('about')}>{hero.ctaSecondary}</button>
         </div>
         <div className="hero-figures">
-          <Figure color="slate" height={72} headSize={24} />
-          <Figure color="blue"  height={88} headSize={22} />
-          <Figure color="amber" height={100} headSize={26} />
-          <Figure color="blue"  height={92} headSize={22} />
-          <Figure color="amber" height={68} headSize={20} />
+          <HeroIllustration />
         </div>
         <div className="home-pills">
           {hero.pills.map(p => <span className="pill" key={p}>{p}</span>)}

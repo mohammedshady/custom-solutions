@@ -1,5 +1,5 @@
 import CONTENT from '../content'
-import Figure from './Figure'
+import AboutIllustration from './AboutIllustration'
 import GCard from './GCard'
 import Icon from './Icon'
 import Section from './Section'
@@ -20,12 +20,8 @@ export default function About() {
           <h2 style={{ fontSize: 'clamp(28px,4vw,42px)', marginBottom: '14px' }}>{intro.title}</h2>
           <p className="section-sub">{intro.sub}</p>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', alignItems: 'flex-end', marginBottom: '40px' }}>
-          <Figure color="slate" height={64} headSize={22} />
-          <Figure color="blue"  height={80} headSize={22} />
-          <Figure color="amber" height={96} headSize={26} />
-          <Figure color="blue"  height={80} headSize={22} />
-          <Figure color="amber" height={60} headSize={20} />
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+          <AboutIllustration />
         </div>
         <div className="grid-3" style={{ maxWidth: '700px', margin: '0 auto' }}>
           {values.map((v, i) => (
@@ -51,15 +47,13 @@ export default function About() {
 
       <Section label={location.sectionLabel} title={location.sectionTitle} sub={location.sectionSub}>
         <div className="map-placeholder">
-          <div className="map-grid" />
-          <div className="map-pin">
-            <div className="map-pin-dot">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M9 2C6.24 2 4 4.24 4 7c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 119 5a1.5 1.5 0 010 3.5z" fill="white" />
-              </svg>
-            </div>
-            <div className="map-address">{location.address}</div>
-          </div>
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=49.5081%2C26.8674%2C49.8081%2C27.1674&layer=mapnik&marker=27.0174%2C49.6581"
+            title="Al Jubail, Saudi Arabia"
+            className="map-iframe"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
         <div className="grid-3" style={{ marginTop: '16px' }}>
           {location.cards.map(c => (

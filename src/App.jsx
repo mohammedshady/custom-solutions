@@ -3,6 +3,7 @@ import Nav from './components/Nav'
 import Home from './components/Home'
 import About from './components/About'
 import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 export default function App() {
   const [page, setPage] = useState('home')
@@ -18,6 +19,7 @@ export default function App() {
       {page === 'home'    && <Home    key="home"    onNav={nav} />}
       {page === 'about'   && <About   key="about" />}
       {page === 'contact' && <Contact key="contact" />}
+      <Footer onNav={nav} />
     </div>
   )
 }

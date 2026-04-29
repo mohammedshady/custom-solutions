@@ -82,6 +82,11 @@ export default function Contact() {
           <button type="submit" className="form-submit" disabled={fsState.submitting}>
             {fsState.submitting ? 'Sending…' : ct.submitLabel}
           </button>
+          <p style={{ fontSize: '12px', color: 'var(--fg-muted)', textAlign: 'center', marginTop: '8px' }}>
+            <a href="mailto:info@csolutions-ai.com" style={{ color: 'var(--accent)', textDecoration: 'none' }}>info@csolutions-ai.com</a>
+            <span style={{ margin: '0 8px', opacity: 0.4 }}>·</span>
+            <a href="tel:+966541349994" style={{ color: 'var(--accent)', textDecoration: 'none' }}>+966 54 134 9994</a>
+          </p>
         </form>
       </div>
     </div>
