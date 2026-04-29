@@ -82,11 +82,22 @@ export default function Contact() {
           <button type="submit" className="form-submit" disabled={fsState.submitting}>
             {fsState.submitting ? 'Sending…' : ct.submitLabel}
           </button>
-          <p style={{ fontSize: '12px', color: 'var(--fg-muted)', textAlign: 'center', marginTop: '8px' }}>
-            <a href="mailto:info@csolutions-ai.com" style={{ color: 'var(--accent)', textDecoration: 'none' }}>info@csolutions-ai.com</a>
-            <span style={{ margin: '0 8px', opacity: 0.4 }}>·</span>
-            <a href="tel:+966541349994" style={{ color: 'var(--accent)', textDecoration: 'none' }}>+966 54 134 9994</a>
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginTop: '10px', flexWrap: 'wrap' }}>
+            <a href="mailto:info@csolutions-ai.com" style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'var(--fg-muted)', textDecoration: 'none' }}>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+                <rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+                <path d="M1 5l7 5 7-5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              info@csolutions-ai.com
+            </a>
+            <span style={{ opacity: 0.3, fontSize: '12px' }}>·</span>
+            <a href="tel:+966541349994" style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'var(--fg-muted)', textDecoration: 'none' }}>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M3 1h3l1.5 4-2 1.5a9 9 0 004 4L11 8.5l4 1.5v3a1 1 0 01-1 1A13 13 0 012 2a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              +966 54 134 9994
+            </a>
+          </div>
         </form>
       </div>
     </div>
