@@ -24,12 +24,15 @@ const CONTENT = {
 
     projects: {
       sectionLabel: 'Our Work',
-      sectionTitle: 'Projects',
-      sectionSub: "A selection of software and hardware solutions we've built for our clients.",
+      sectionTitle: 'Our products',
+      sectionSub: 'Purpose-built systems solving real operational challenges across safety, security, and performance.',
       items: [
-        { title: 'STjaba',    desc: 'Pinpoints emergencies in real time and routes the nearest responders automatically — because every second matters.', tag: 'Software · Geo' },
-        { title: 'OmniSafe', desc: 'Monitors site conditions live and triggers coordinated evacuations the moment a threat is detected — keeping workers safe.', tag: 'Safety · IoT' },
-        { title: 'Your project', desc: "Got something in mind? We'd love to hear it. Whether it's a rough idea or a detailed brief, we'll help you figure out the best path forward.", tag: 'Let\'s talk →' },
+        { title: 'STjaba',      desc: 'Pinpoints emergencies in real time and routes the nearest responders automatically — because every second matters.',                         tag: 'Emergency · Response'  },
+        { title: 'OmniSAFE',   desc: 'Monitors site conditions and triggers coordinated evacuations the moment a threat is detected — keeping workers safe.',                      tag: 'Safety · IoT'          },
+        { title: 'SaudiCSS',   desc: 'Keeps sensitive facilities secure with real-time monitoring, threat detection, and rapid response coordination.',                           tag: 'Security · IoT'        },
+        { title: 'ELTEZAM',    desc: 'Helps organizations build a culture of accountability and track continuous improvement across all levels.',                                  tag: 'Enterprise · HR'       },
+        { title: 'GoldenArt',  desc: 'Streamlines production workflows and surfaces performance insights that help operations teams work smarter.',                                tag: 'Production · Analytics' },
+        { title: 'Processinya', desc: 'Monitors live processes, flags risks early, and guides teams through safety procedures to keep operations running without incident.',       tag: 'Safety · Operations'   },
       ],
     },
 
@@ -79,9 +82,10 @@ const CONTENT = {
       sectionTitle: 'The people behind it',
       sectionSub: 'A tight-knit group of engineers and builders who care deeply about craft.',
       members: [
-        { name: 'Abdulmohsen Al-Marri', role: 'CEO & Co-founder', bio: 'Drives company vision, client relationships, and strategy.', initials: 'AM', color: '#5B8DEF' },
-        { name: 'Abdullah Ayman',   role: 'Technical Lead', bio: 'Owns the architecture and drives technical decisions from kickoff to delivery.', initials: 'AA', color: '#F5B942' },
-        { name: 'Mohammed Elsayed', role: 'Developer',      bio: 'Builds full-stack software with a focus on clean, reliable solutions.',               initials: 'ME', color: '#8B8FA8' },
+        { name: 'Dr. Mohammed Al-Thobaiti', role: 'Co-founder', bio: 'Shapes the company\'s growth and long-term direction.', initials: 'MT', color: '#7B6CF6' },
+        { name: 'Mr. Abdulmohsen Al-Marri',  role: 'CEO & Co-founder', bio: 'Drives company vision, client relationships, and strategy.',                                    initials: 'AM', color: '#5B8DEF' },
+        { name: 'Eng. Abdullah Ayman',      role: 'Technical Lead',   bio: 'Owns the architecture and drives technical decisions from kickoff to delivery.',                  initials: 'AA', color: '#F5B942' },
+        { name: 'Eng. Mohammed Elsayed',     role: 'Developer',        bio: 'Builds full-stack software with a focus on clean, reliable solutions.',                           initials: 'ME', color: '#8B8FA8' },
       ],
     },
 
